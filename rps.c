@@ -1,7 +1,7 @@
-#include "rps.h"
+#include "pipe_networking.h"
 
 /*
-	run rps
+	run main
 		"welcome to rps!"
 		run username
 			"please enter a username:"
@@ -34,6 +34,21 @@
 
 
 int main(){
-
-		
+	char *user_input;
+	
+	user_input = (char*)calloc(16, sizeof(char));
+	printf("type 'new' to create a new game. type 'join' to join an existing game.\n");
+	fgets(user_input, 15, stdin);
+	//cut userinput at the \n 
+	user_input = strsep( &user_input, "\n");
+	
+	printf("%d\n", strcmp(user_input, "new"));
+	if(strcmp(user_input, "new")==0){
+		new_game();
+	} else if (strcmp(user_input, "join")==0){
+		join();
+	} else { printf("invalid input\n"); }
+	
 }
+
+
