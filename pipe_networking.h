@@ -20,6 +20,8 @@
 #define WIN 2
 #define LOSE 1
 #define TIE 0
+#define FALSE 0
+#define TRUE 1
 
 #define SYN 0
 #define SYN_ACK 1

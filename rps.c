@@ -66,10 +66,17 @@ char * input(int bytes){
 //give it the to_client/to_server file descripters
 int one_round(int to, int from){
 	int bytes;
-	
-	printf("type either (r)ock, (p)aper, or (s)cissors: ");
 	char * choice = calloc(16, sizeof(char));
-	choice = input(16);	
+	
+	
+	int valid = FALSE;
+	while(!valid){
+		printf("type either (r)ock, (p)aper, or (s)cissors: ");
+		choice = input(16);	
+		if(isRock(choice)||isPaper(choice)||isScissors(choice)){
+			valid = TRUE;
+		} else { printf("invalid input. ");}
+	}
 	
 	bytes = write(to, choice, 16);
 		if(bytes!=16)err();
@@ -118,27 +125,30 @@ int won(char * yours, char * opponent){
 			return TIE;
 		}
 	} else {
-		printf("invalid input\n");
+		printf("invalid input");
 		return -1;
 	}
 }
 
 int isRock(char * str){
 	if (strcasecmp(str, "rock")== 0 || strcasecmp(str, "r")==0) {
-		return 1;
-	} else return 0;
+		if(strcasecmp(str, "rokc")==0){printf("HAHAHAH YOU SPELLED IT WRONG\n");}
+		return TRUE;
+	} else return FALSE;
 }
 
 int isPaper(char * str){
 	if (strcasecmp(str, "paper")== 0 || strcasecmp(str, "p")==0) {
-		return 1;
-	} else return 0;
+		if(strcasecmp(str, "paepr")==0){printf("HAHAHAH YOU SPELLED IT WRONG\n");}
+		return TRUE;
+	} else return FALSE;
 }
 
 int isScissors(char * str){
 	if (strcasecmp(str, "scissors")== 0 || strcasecmp(str, "s")==0) {
-		return 1;
-	} else return 0;
+		if(strcasecmp(str, "sciscors")==0){printf("HAHAHAH YOU SPELLED IT WRONG\n");}
+		return TRUE;
+	} else return FALSE;
 }
 
 

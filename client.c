@@ -14,7 +14,8 @@ int join() {
 	bytes = read(from_server, &num_rounds, 4);
 		if(bytes!=4)err();
 		
-	for(int i = 0; i<num_rounds; i++){		
+	for(int i = 0; i<num_rounds; i++){	
+		printf("(%d/%d) ", i+1, num_rounds);
 		one_round(to_server, from_server);	
 	}
 }

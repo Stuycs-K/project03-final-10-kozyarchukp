@@ -36,11 +36,11 @@ int new_game() {
 		if(bytes!=4)err();	
 	
 	for(int i = 0; i<num_rounds; i++){
+		printf("(%d/%d)", i+1, num_rounds);
 		one_round(to_client, from_client);
 	}
 	
 	close(to_client);
-	close(from_client);
-	
+	close(from_client);	
 }
 
