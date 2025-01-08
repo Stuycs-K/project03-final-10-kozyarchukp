@@ -26,10 +26,13 @@ int new_game() {
 	if(pid==0){
 		//child
 		server_handshake_half(&to_client, from_client);
-		printf("player 2 connected!\n");			
+		printf("player 2 connected!\n");	
+
+		one_round(to_client, from_client);
 	} 
 	
 	close(to_client);
 	close(from_client);
 	
 }
+

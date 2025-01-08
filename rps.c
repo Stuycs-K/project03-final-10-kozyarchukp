@@ -35,12 +35,12 @@
 
 int main(){
 	char *user_input;
+	int num_players;
+	int num_rounds;
 	
-	user_input = (char*)calloc(16, sizeof(char));
 	printf("type 'new' to create a new game. type 'join' to join an existing game.\n");
-	fgets(user_input, 15, stdin);
-	//cut userinput at the \n 
-	user_input = strsep( &user_input, "\n");
+
+	user_input = input(16);
 	
 	printf("%d\n", strcmp(user_input, "new"));
 	if(strcmp(user_input, "new")==0){
@@ -49,6 +49,35 @@ int main(){
 		join();
 	} else { printf("invalid input\n"); }
 	
+}
+
+
+//takes up to bytes input from stdin. cuts the string at the newline.
+char * input(int bytes){
+	char * input_buffer = calloc(bytes, sizeof(char));
+	fgets(input_buffer, bytes-1, stdin);
+	//cut input_buffers at the \n 
+	input_buffer = strsep( &input_buffer, "\n");	
+	return input_buffer;
+}
+
+//executes a round, taking user input, sending it to opponent, processing and returning win
+//give it the to_client/to_server file descripters
+int one_round(int to, int from){
+	int bytes;
+	
+	printf("type either (r)ock, (p)aper, or (s)cissors: ");
+	char * choice = calloc(16, sizeof(char));
+	choice = input(16);
+	
+	bytes = write(to, &choice, 16);
+		if(bytes!=16)err();
+	
+	char * response = calloc(16, sizeof(char));
+	bytes = read(from, &response, 16);
+		if(bytes!=16)err();
+	
+	printf("recieved %s from opponent\n", response);
 }
 
 

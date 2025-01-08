@@ -49,4 +49,8 @@ int new_game();
 //from client.c
 int join();
 
+//from rps
+char * input(int bytes);
+int one_round(int to, int from);
+
 #endif

@@ -9,4 +9,7 @@ int join() {
 	printf("connecting to server...\n");
 	from_server = client_handshake( &to_server );
 	printf("successfully connected to server!\n");
+	
+	one_round(to_server, from_server);	
 }
+
