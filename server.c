@@ -11,7 +11,7 @@ void sighandler(int signo){
 int new_game() {
 	signal(SIGINT, sighandler);
 	signal(SIGPIPE, SIG_IGN);
-
+	
 	int to_client = 0;
 	int from_client = 0;
 	int bytes = 0;
@@ -22,14 +22,14 @@ int new_game() {
 	int num_players = 1;
 	printf("waiting for player 2...\n");
 	from_client = server_setup();
-	pid = fork();
-	if(pid==0){
+	//pid = fork();
+	//if(pid==0){
 		//child
-		server_handshake_half(&to_client, from_client);
-		printf("player 2 connected!\n");	
+	server_handshake_half(&to_client, from_client);
+	printf("player 2 connected!\n");	
 
-		one_round(to_client, from_client);
-	} 
+	one_round(to_client, from_client);
+	//} 
 	
 	close(to_client);
 	close(from_client);

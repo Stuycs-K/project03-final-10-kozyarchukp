@@ -55,6 +55,7 @@ int main(){
 //takes up to bytes input from stdin. cuts the string at the newline.
 char * input(int bytes){
 	char * input_buffer = calloc(bytes, sizeof(char));
+	//printf("calloced space, starting fgets\n");
 	fgets(input_buffer, bytes-1, stdin);
 	//cut input_buffers at the \n 
 	input_buffer = strsep( &input_buffer, "\n");	
@@ -68,10 +69,9 @@ int one_round(int to, int from){
 	
 	printf("type either (r)ock, (p)aper, or (s)cissors: ");
 	char * choice = calloc(16, sizeof(char));
-	choice = input(16);
-	printf("processed choice\n");
-	
-	printf("choice is -- %s\n", choice);
+	choice = input(16);	
+	printf("\nyour choice is %s\n", choice);
+	/*
 	bytes = write(to, choice, 16);
 		if(bytes!=16)err();
 	
@@ -80,6 +80,6 @@ int one_round(int to, int from){
 		if(bytes!=16)err();
 	
 	printf("recieved %s from opponent\n", response);
+	*/
 }
-
 
