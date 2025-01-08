@@ -42,7 +42,7 @@ int main(){
 
 	user_input = input(16);
 	
-	printf("%d\n", strcmp(user_input, "new"));
+	//printf("%d\n", strcmp(user_input, "new"));
 	if(strcmp(user_input, "new")==0){
 		new_game();
 	} else if (strcmp(user_input, "join")==0){
@@ -69,12 +69,14 @@ int one_round(int to, int from){
 	printf("type either (r)ock, (p)aper, or (s)cissors: ");
 	char * choice = calloc(16, sizeof(char));
 	choice = input(16);
+	printf("processed choice\n");
 	
-	bytes = write(to, &choice, 16);
+	printf("choice is -- %s\n", choice);
+	bytes = write(to, choice, 16);
 		if(bytes!=16)err();
 	
 	char * response = calloc(16, sizeof(char));
-	bytes = read(from, &response, 16);
+	bytes = read(from, response, 16);
 		if(bytes!=16)err();
 	
 	printf("recieved %s from opponent\n", response);
