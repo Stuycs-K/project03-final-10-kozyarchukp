@@ -55,7 +55,7 @@ int main(){
 //takes up to bytes input from stdin. cuts the string at the newline.
 char * input(int bytes){
 	char * input_buffer = calloc(bytes, sizeof(char));
-	//printf("calloced space, starting fgets\n");
+	//printf("supposed to wait here i thouhgt?\n");
 	fgets(input_buffer, bytes-1, stdin);
 	//cut input_buffers at the \n 
 	input_buffer = strsep( &input_buffer, "\n");	
@@ -77,6 +77,7 @@ int one_round(int to, int from){
 	char * response = calloc(16, sizeof(char));
 	bytes = read(from, response, 16);
 		if(bytes!=16)err();
+	
 	
 	won(choice, response);
 }
