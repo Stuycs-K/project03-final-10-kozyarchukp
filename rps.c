@@ -70,8 +70,7 @@ int one_round(int to, int from){
 	printf("type either (r)ock, (p)aper, or (s)cissors: ");
 	char * choice = calloc(16, sizeof(char));
 	choice = input(16);	
-	printf("\nyour choice is %s\n", choice);
-	/*
+	
 	bytes = write(to, choice, 16);
 		if(bytes!=16)err();
 	
@@ -79,7 +78,66 @@ int one_round(int to, int from){
 	bytes = read(from, response, 16);
 		if(bytes!=16)err();
 	
-	printf("recieved %s from opponent\n", response);
-	*/
+	won(choice, response);
 }
+
+//returns 1 if you lose, 2 if you won, 0 if a tie, -1 if invalid input
+int won(char * yours, char * opponent){
+	if (isRock(yours)){
+		if(isRock(opponent)){
+			printf("it was a tie!\n");
+			return TIE;
+		} else if (isPaper(opponent)){
+			printf("you lose!\n");
+			return LOSE;			
+		} else if (isScissors(opponent)){
+			printf("you win!\n");
+			return WIN;			
+		}
+	} else if (isPaper(yours)){
+		if(isRock(opponent)){
+			printf("you win!\n");	
+			return WIN;
+		} else if (isPaper(opponent)){
+			printf("it was a tie!\n");	
+			return TIE;			
+		} else if (isScissors(opponent)){
+			printf("you lose!\n");	
+			return LOSE;			
+		}
+	} else if (isScissors(yours)){
+		if(isRock(opponent)){
+			printf("you lose!\n");	
+			return LOSE;
+		} else if (isPaper(opponent)){
+			printf("you win!\n");	
+			return WIN;			
+		} else if (isScissors(opponent)){
+			printf("it was a tie!\n");		
+			return TIE;
+		}
+	} else {
+		printf("invalid input\n");
+		return -1;
+	}
+}
+
+int isRock(char * str){
+	if (strcasecmp(str, "rock")== 0 || strcasecmp(str, "r")==0) {
+		return 1;
+	} else return 0;
+}
+
+int isPaper(char * str){
+	if (strcasecmp(str, "paper")== 0 || strcasecmp(str, "p")==0) {
+		return 1;
+	} else return 0;
+}
+
+int isScissors(char * str){
+	if (strcasecmp(str, "scissors")== 0 || strcasecmp(str, "s")==0) {
+		return 1;
+	} else return 0;
+}
+
 

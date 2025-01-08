@@ -17,6 +17,9 @@
 #define HANDSHAKE_BUFFER_SIZE 10
 #define BUFFER_SIZE 1000
 #define MAX_CLIENTS 100
+#define WIN 2
+#define LOSE 1
+#define TIE 0
 
 #define SYN 0
 #define SYN_ACK 1
@@ -52,6 +55,9 @@ int join();
 //from rps
 char * input(int bytes);
 int one_round(int to, int from);
-
+int won(char * yours, char * opponent);
+int isRock(char * str);
+int isPaper(char * str);
+int isScissors(char * str);
 
 #endif
