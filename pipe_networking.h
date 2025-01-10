@@ -52,6 +52,7 @@ int multi_server_connect(int from_client, struct message m);
 
 //from server.c
 int new_game();
+int server_round();
 
 //from client.c
 int join();
@@ -63,5 +64,7 @@ int won(char * yours, char * opponent);
 int isRock(char * str);
 int isPaper(char * str);
 int isScissors(char * str);
+int isRound(char * str);
+int isTour(char * str);
 
 #endif

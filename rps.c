@@ -148,9 +148,23 @@ int isPaper(char * str){
 int isScissors(char * str){
 	//printf("choice is %s\n", str);
 	if (strcasecmp(str, "scissors")== 0 || strcasecmp(str, "s")==0) {
-		if(strcasecmp(str, "sciscors")==0){printf("HAHAHAH YOU SPELLED IT WRONG\n");}
+		if(strcasecmp(str, "sciscors")==0){
+			printf("HAHAHAH YOU SPELLED IT WRONG\n");
+		}
 		return TRUE;
 	} else return FALSE;
+}
+
+int isRound(char * str){
+	if (strcasecmp(str, "rounds")== 0 || strcasecmp(str, "r")==0) {
+		return TRUE;
+	} else return FALSE;	
+}
+
+int isTour(char * str){
+	if (strcasecmp(str, "tournament")== 0 || strcasecmp(str, "t")==0) {
+		return TRUE;
+	} else return FALSE;	
 }
 
 
