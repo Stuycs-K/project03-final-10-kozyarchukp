@@ -82,6 +82,11 @@ int server_round(){
 					printf("issue whe writing number of rounds to child\n");
 					err();
 				}					
-		}	
+		}			
+		//all players are connected, give the signal to start!
+		for(int i = 0; i < num_players; i++){
+			int ready = TRUE;
+			bytes = write(children[i][TO], &ready, 4);
+		}		
 }
 
