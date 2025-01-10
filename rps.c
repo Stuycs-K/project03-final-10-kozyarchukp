@@ -32,7 +32,6 @@
 */
 
 
-
 int main(){
 	char *user_input;
 	int num_players;
@@ -131,6 +130,7 @@ int won(char * yours, char * opponent){
 }
 
 int isRock(char * str){
+	//printf("choice is %s\n", str);	
 	if (strcasecmp(str, "rock")== 0 || strcasecmp(str, "r")==0) {
 		if(strcasecmp(str, "rokc")==0){printf("HAHAHAH YOU SPELLED IT WRONG\n");}
 		return TRUE;
@@ -138,6 +138,7 @@ int isRock(char * str){
 }
 
 int isPaper(char * str){
+	//printf("choice is %s\n", str);	
 	if (strcasecmp(str, "paper")== 0 || strcasecmp(str, "p")==0) {
 		if(strcasecmp(str, "paepr")==0){printf("HAHAHAH YOU SPELLED IT WRONG\n");}
 		return TRUE;
@@ -145,10 +146,25 @@ int isPaper(char * str){
 }
 
 int isScissors(char * str){
+	//printf("choice is %s\n", str);
 	if (strcasecmp(str, "scissors")== 0 || strcasecmp(str, "s")==0) {
-		if(strcasecmp(str, "sciscors")==0){printf("HAHAHAH YOU SPELLED IT WRONG\n");}
+		if(strcasecmp(str, "sciscors")==0){
+			printf("HAHAHAH YOU SPELLED IT WRONG\n");
+		}
 		return TRUE;
 	} else return FALSE;
+}
+
+int isRound(char * str){
+	if (strcasecmp(str, "rounds")== 0 || strcasecmp(str, "r")==0) {
+		return TRUE;
+	} else return FALSE;	
+}
+
+int isTour(char * str){
+	if (strcasecmp(str, "tournament")== 0 || strcasecmp(str, "t")==0) {
+		return TRUE;
+	} else return FALSE;	
 }
 
 

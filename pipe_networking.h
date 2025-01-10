@@ -22,6 +22,8 @@
 #define TIE 0
 #define FALSE 0
 #define TRUE 1
+#define TO 0
+#define FROM 1
 
 #define SYN 0
 #define SYN_ACK 1
@@ -50,6 +52,7 @@ int multi_server_connect(int from_client, struct message m);
 
 //from server.c
 int new_game();
+int server_round();
 
 //from client.c
 int join();
@@ -61,5 +64,7 @@ int won(char * yours, char * opponent);
 int isRock(char * str);
 int isPaper(char * str);
 int isScissors(char * str);
+int isRound(char * str);
+int isTour(char * str);
 
 #endif
