@@ -71,12 +71,17 @@ int server_round(){
 		int children[num_players][2];
 		for(int i = 0; i < num_players; i++){
 			printf("waiting for player %d...\n", i+1);
-			children[num_players][FROM] = server_handshake(&children[num_players][TO]);
+			int from_client;
+			int to_client;
+			children[i][FROM] = server_handshake(&children[i][TO]);
 			printf("player %d connected!\n", i+1);	
 			
 			//write number of rounds
-			bytes = write(children[num_players][TO], &num_rounds, 4);
-				if(bytes!=4)err();			
+			bytes = write(children[i][TO], &num_rounds, 4);
+				if(bytes!=4){
+					printf("issue whe writing number of rounds to child\n");
+					err();
+				}					
 		}	
 }
 

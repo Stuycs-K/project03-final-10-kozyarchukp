@@ -32,6 +32,7 @@ int server_setup() {
 int server_handshake(int *to_client) {
 	int bytes;
 	int from_client = server_setup();
+	
 	//5 Server reading SYN (pp?)
 	char PP[8];
 	bytes = read(from_client, PP, 8);
