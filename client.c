@@ -29,35 +29,53 @@ int join() {
 	}
 }
 
-int username(){
+struct plr * username(){
 	char * username = calloc(16, sizeof(char));
+	int plr_file;	
+	int NEW_PLR = FALSE;
+	int bytes;
+	char *password = calloc(16, sizeof(char));	
+	struct plr *player;	
+	
 	printf("please enter a username (up to 15 chars): ");
 	username = input(15);
 	
-	struct plr *player;
 	strcpy(player->name, username);
 	
 	if(chdir("plr-files")==-1)err();
 	
-	DIR * d;
-	char* PATH = ".";
-	d = opendir( PATH );
-	struct dirent *entry;
-	
-	char ** files;
-	
-	int i = 0;
-	while(entry = readdir( d )){
-		files[i] = calloc(16, sizeof(char));
-		files[i] = entry->d_name;
-		i++;
+	plr_file = open(username, O_RDWR, 0);
+	if(plr_file==-1){
+		NEW_PLR = TRUE;
+		plr_file = open(username, O_RDWR || O_CREAT, 0600);
+		if(plr_file==-1)err();
 	}
 	
-	if(i==0){
-		printf("you are making a new account! please type a password (up to 16 chars): ");
+	if(NEW_PLR){
+		printf("you are making a new account! please type a password (up to 15 chars): ");
+		password = input(16);
 		
+		strcpy(player->password, password);
+		player->wins = 0;
+		player->losses = 0;
+		
+		bytes = write(plr_file, player, 40);
+		if(bytes!=40)err();
+	} else {
+		bytes = read(plr_file, player, 40);
+		if(bytes!=40)err();
+		
+		printf("type your password: ");
+		password = input(15);
+		
+		if(strcmp(player->password, password)==0){
+			printf("welcome %s!\n", username);
+		} else {
+			printf("incorrect password. BOO\n");
+			exit(0);
+		}
 	}
 	
-	closedir(d);	
+	return player;
 }
 
