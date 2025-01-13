@@ -9,6 +9,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <dirent.h>
+
 
 #ifndef NETWORKING_H
 #define NETWORKING_H
@@ -56,6 +58,7 @@ int server_round();
 
 //from client.c
 int join();
+struct plr { char name[16]; char password[16]; int wins; int losses; };
 
 //from rps
 char * input(int bytes);
