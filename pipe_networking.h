@@ -26,6 +26,10 @@
 #define TRUE 1
 #define TO 0
 #define FROM 1
+#define ROCK 0
+#define PAPER 1
+#define SCISSORS 2
+#define NONE -1
 
 #define SYN 0
 #define SYN_ACK 1
@@ -60,6 +64,7 @@ int server_round();
 int join();
 struct plr { char name[16]; char password[16]; int wins; int losses; }; //40bytes
 struct plr * username();
+int client_round(int to_server);
 
 //from rps
 char * input(int bytes);

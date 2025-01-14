@@ -27,9 +27,39 @@ int join() {
 	if (ready){
 		for(int i = 0; i<num_rounds; i++){	
 			printf("(%d/%d) ", i+1, num_rounds);
-			one_round(to_server, from_server);	
+				
 		}
 	}
+	
+	client_round(to_server);
+}
+
+//executes a round, taking user input, sending it to opponent, processing and returning win
+//give it the to_client/to_server file descripters
+int client_round(int to_server){
+	int bytes;
+	char * choice = calloc(16, sizeof(char));
+	int send;
+	
+	
+	int valid = FALSE;
+	while(!valid){
+		printf("type either (r)ock, (p)aper, or (s)cissors: ");
+		choice = input(16);	
+		if(isRock(choice)){
+			valid = TRUE;
+			send = ROCK;
+		} else if (isPaper(choice)){
+			valid = TRUE;
+			send = PAPER;			
+		} else if(isScissors(choice)){
+			valid = TRUE;
+			send = SCISSORS;				
+		} else { printf("invalid input. ");}
+	}
+	
+	bytes = write(to_server, send, 4);
+		if(bytes!=4)err();
 }
 
 struct plr * username(){
@@ -49,13 +79,10 @@ struct plr * username(){
 	
 	plr_file = open(username, O_RDWR, 0);
 	if(plr_file==-1){
-		printf("file doesn't exist\n");
 		NEW_PLR = TRUE;
 		plr_file = open(username, O_RDWR | O_CREAT, 0666);
-		printf("made it..?\n");
 		if(plr_file==-1)err();
 	}
-	printf("made the file\n");
 	
 	if(NEW_PLR){
 		printf("you are making a new account! please type a password (up to 15 chars): ");
@@ -64,6 +91,8 @@ struct plr * username(){
 		strcpy(player->password, password);
 		player->wins = 0;
 		player->losses = 0;
+		
+		printf("account succesfully created!\n");
 		
 		bytes = write(plr_file, player, 40);
 		if(bytes!=40)err();
