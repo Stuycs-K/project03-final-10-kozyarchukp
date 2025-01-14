@@ -58,7 +58,8 @@ int server_round();
 
 //from client.c
 int join();
-struct plr { char name[16]; char password[16]; int wins; int losses; };
+struct plr { char name[16]; char password[16]; int wins; int losses; }; //40bytes
+struct plr * username();
 
 //from rps
 char * input(int bytes);

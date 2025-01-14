@@ -7,8 +7,11 @@ int join() {
 	int from_server = 0;
 	int num_rounds = 0;
 	int ready = FALSE;
+	struct plr * player;
 	
 	printf("welcome to rock paper scissors!\n");
+	
+	player = username();
 	
 	printf("connecting to server...\n");
 	from_server = client_handshake( &to_server );
@@ -46,10 +49,13 @@ struct plr * username(){
 	
 	plr_file = open(username, O_RDWR, 0);
 	if(plr_file==-1){
+		printf("file doesn't exist\n");
 		NEW_PLR = TRUE;
-		plr_file = open(username, O_RDWR || O_CREAT, 0600);
+		plr_file = open(username, O_RDWR | O_CREAT, 0666);
+		printf("made it..?\n");
 		if(plr_file==-1)err();
 	}
+	printf("made the file\n");
 	
 	if(NEW_PLR){
 		printf("you are making a new account! please type a password (up to 15 chars): ");
@@ -75,6 +81,8 @@ struct plr * username(){
 			exit(0);
 		}
 	}
+	
+	if(chdir("..")==-1)err();
 	
 	return player;
 }
