@@ -95,13 +95,13 @@ int server_round(){
 
 //
 int rps(int num_players, int**children){
-	int children[num_players][2]; //holds the fds
+	//int children[num_players][2]; //holds the fds
 	int results[num_players]; //holds the corresponding results
 	int bytes;
 	int winner;
 	
 	for(int i=0; i<num_players; i++){
-		bytes = read(children[i][FROM], results[i], 4);
+		bytes = read(children[i][FROM], &results[i], 4);
 	}
 	
 	
@@ -126,12 +126,12 @@ int rps(int num_players, int**children){
 			} 
 	*/
 		
-	}
 }
+
 
 //returns 1 if you lose, 2 if you won, 0 if a tie, -1 if invalid input
 int winningChoice(int * results){
-	if (results[0] == ROCK)){
+	if (results[0] == ROCK){
 		if(results[1] == ROCK){
 			return NONE;
 		} else if (results[1] == SCISSORS){

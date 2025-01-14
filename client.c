@@ -58,7 +58,7 @@ int client_round(int to_server){
 		} else { printf("invalid input. ");}
 	}
 	
-	bytes = write(to_server, send, 4);
+	bytes = write(to_server, &send, 4);
 		if(bytes!=4)err();
 }
 
