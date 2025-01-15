@@ -4,6 +4,10 @@ This document must be updated daily by EACH group member.
 
 ## Polina Kozyarchuk
 
+### 2024-01-14
+made the game ACTUALLY work in all circumstances! 2 player game works perfectly!
+started to make the player files actually functionable by having them record wins and losses and being able to check stats and such
+
 ### 2024-01-13
 started working on usernames. had to create a player struct and such
 
