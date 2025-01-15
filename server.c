@@ -46,6 +46,7 @@ int server_round(){
 	buff = calloc(2, sizeof(char));
 	buff = input(4);
 	sscanf(buff, "%d", &num_rounds);
+	
 
 	num_players = 2;
 
@@ -70,7 +71,10 @@ int server_round(){
 	}
 	
 	for (int i = 0; i < num_rounds; i++){
-		rps(num_players, children);
+		int result = rps(num_players, children);
+		if (result==NONE){
+			i--;
+		}
 	}
 }
 
@@ -87,13 +91,14 @@ int rps(int num_players, int ** children){
 	
 	
 	if(num_players==2){
-		int winner = winningChoice(results);
+		winner = winningChoice(results);
 		for(int i = 0; i<2; i++){
 			bytes = write(children[i][TO], &winner, 4);
 				if(bytes!=4)err();
 		}
 	}
 	
+	return winner;
 	//3 rocks, 2 paper
 	/*
 		two player:

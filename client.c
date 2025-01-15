@@ -7,6 +7,7 @@ int join() {
 	int from_server = 0;
 	int num_rounds = 0;
 	int ready = FALSE;
+	int result;
 	struct plr * player;
 	
 	printf("welcome to rock paper scissors!\n");
@@ -27,10 +28,18 @@ int join() {
 	if (ready){
 		for(int i = 0; i<num_rounds; i++){	
 			printf("(%d/%d) ", i+1, num_rounds);
-			client_round(to_server, from_server);	
+			result = client_round(to_server, from_server);
+			if(result==TIE){
+				printf("it was a tie! one more time..\n");
+				i--;
+			} else if (result==WIN){
+				printf("YOU WON!\n");
+			} else {
+				printf("YOU LOST! :(\n");
+			}
 		}
+		ready = FALSE;
 	}
-	
 }
 
 //executes a round, taking user input, sending it to opponent, processing and returning win
@@ -65,11 +74,11 @@ int client_round(int to_server, int from_server){
 		if(bytes!=4)err();
 	
 	if(recieved==-1){
-		printf("tie, must restard round\n");
+		return TIE;
 	} else if(recieved==send){
-		printf("you won!\n");
+		return WIN;
 	} else {
-		printf("you lost\n");
+		return LOSE;
 	}
 }
 
