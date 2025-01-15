@@ -11,7 +11,7 @@ int join() {
 	
 	printf("welcome to rock paper scissors!\n");
 	
-	//player = username();
+	player = username();
 	
 	printf("connecting to server...\n");
 	from_server = client_handshake( &to_server );

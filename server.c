@@ -11,11 +11,8 @@ void sighandler(int signo){
 int new_game() {
 	signal(SIGINT, sighandler);
 	signal(SIGPIPE, SIG_IGN);
-	
 
-	//int pipe[2];
 	int bytes = 0;
-	//pid_t pid;
 	int num_rounds;	
 	int num_players;
 	char * gamemode = calloc(16, sizeof(char));
@@ -30,51 +27,27 @@ int new_game() {
 	}
 	*/
 	server_round();
-	
 
 	
-		/*
-	printf("waiting for player 2...\n");
-	pipe[FROM] = server_setup();
-	//pid = fork();
-	//if(pid==0){
-		//child
-	server_handshake_half(&pipe[TO], pipe[FROM]);
-	printf("player 2 connected!\n");	
-	
-	bytes = write(pipe[TO], &num_rounds, 4);
-		if(bytes!=4)err();	
-	
-	for(int i = 0; i<num_rounds; i++){
-		printf("(%d/%d)", i+1, num_rounds);
-		one_round(pipe[TO], pipe[FROM]);
-	}
-	*/
-	
-	//######## MAKE SURE TO CLOSE THE PIPES LATE RIM TO LAZY RN ##########
-	//close(children[nu[TO]);
-	//close(pipe[FROM]);	
 }
 
 int server_round(){
 	int num_players;
 	int num_rounds;
 	int bytes;
+	char * buff = calloc(2, sizeof(char));	
 	
 	/*
 	printf("how many players?\n");
-	char * buff = calloc(2, sizeof(char));
 	buff = input(4);
 	sscanf(buff, "%d", &num_players);
-	printf("recieved %d\n", num_players);
+	*/
 	printf("how many rounds (up to 99) would you like to play? ");
 	buff = calloc(2, sizeof(char));
 	buff = input(4);
 	sscanf(buff, "%d", &num_rounds);
-*/
-	
+
 	num_players = 2;
-	num_rounds = 3;
 
 	int ** children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
@@ -96,17 +69,13 @@ int server_round(){
 		bytes = write(children[i][TO], &ready, 4);
 	}
 	
-	printf("rps timez\n");
-	
-	rps(num_players, children);
-	
-	
-	
+	for (int i = 0; i < num_rounds; i++){
+		rps(num_players, children);
+	}
 }
 
-//
+
 int rps(int num_players, int ** children){
-	//int children[num_players][2]; //holds the fds
 	int results[num_players]; //holds the corresponding results
 	int bytes;
 	int winner;
