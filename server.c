@@ -102,11 +102,16 @@ int rps(int num_players, int**children){
 	
 	for(int i=0; i<num_players; i++){
 		bytes = read(children[i][FROM], &results[i], 4);
+			if(bytes!=4)err();
 	}
 	
 	
 	if(num_players==2){
 		int winner = winningChoice(results);
+		for(int i = 0; i<2; i++){
+			bytes = write(children[i][TO], &winner, 4);
+				if(bytes!=4)err();
+		}
 	}
 	
 	//3 rocks, 2 paper

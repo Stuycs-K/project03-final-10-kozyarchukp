@@ -65,7 +65,7 @@ int winningChoice(int * results);
 int join();
 struct plr { char name[16]; char password[16]; int wins; int losses; }; //40bytes
 struct plr * username();
-int client_round(int to_server);
+int client_round(int to_server, int from_server);
 
 //from rps
 char * input(int bytes);

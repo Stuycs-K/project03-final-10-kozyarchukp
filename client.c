@@ -27,19 +27,19 @@ int join() {
 	if (ready){
 		for(int i = 0; i<num_rounds; i++){	
 			printf("(%d/%d) ", i+1, num_rounds);
-				
+			client_round(to_server, from_server);	
 		}
 	}
 	
-	client_round(to_server);
 }
 
 //executes a round, taking user input, sending it to opponent, processing and returning win
 //give it the to_client/to_server file descripters
-int client_round(int to_server){
+int client_round(int to_server, int from_server){
 	int bytes;
 	char * choice = calloc(16, sizeof(char));
 	int send;
+	int recieved;
 	
 	
 	int valid = FALSE;
@@ -60,6 +60,17 @@ int client_round(int to_server){
 	
 	bytes = write(to_server, &send, 4);
 		if(bytes!=4)err();
+	
+	bytes = read(from_server, &recieved, 4);
+		if(bytes!=4)err();
+	
+	if(recieved==-1){
+		printf("tie, must restard round\n");
+	} else if(recieved==send){
+		printf("you won!\n");
+	} else {
+		printf("you lost\n");
+	}
 }
 
 struct plr * username(){
