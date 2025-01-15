@@ -13,10 +13,30 @@ int join() {
 	printf("welcome to rock paper scissors!\n");
 	
 	player = username();
+	while(!ready){
+		printf("type 'stats' to check your win/loss ratio, 'change pwd' to change your password, 'delete' to delete your account, or 'start' to start the game.\n");
+		char * buff = calloc(16, sizeof(char));
+		buff = input(10);
+		
+		if(strcmp(buff, "stats")==0){
+			printf("wins: %d\n", player->wins);
+			printf("losses: %d\n", player->losses);
+		} else if (strcmp(buff, "change pwd")==0){
+			printf("choose a new password (up to 15 chars): ");
+			buff = input(15);
+			strcpy(player->password, buff);
+			int plr_file = open(player->name, O_RDWR, 0);
+			bytes = write(plr_file, player, 40);
+				if(bytes!=40)err();
+		} else if (strcmp(buff, "delete")==0){
+			remove(player->name);
+			exit(0);
+		}
+	}
+	ready = FALSE;
 	
-	printf("connecting to server...\n");
+	
 	from_server = client_handshake( &to_server );
-	printf("successfully connected to server!\n");
 	
 	bytes = read(from_server, &num_rounds, 4);
 		if(bytes!=4)err();
