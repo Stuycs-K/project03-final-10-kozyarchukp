@@ -21,12 +21,15 @@ int new_game() {
 	char * gamemode = calloc(16, sizeof(char));
 	
 	printf("welcome to rock paper scissors!\n");
+	/*
 	printf("choose a gamemode ((r)ounds, or (t)ournament)\n");
 	gamemode = input(16);
 	
 	if(isRound(gamemode)){
 		server_round();
 	}
+	*/
+	server_round();
 	
 
 	
@@ -58,6 +61,7 @@ int server_round(){
 	int num_rounds;
 	int bytes;
 	
+	/*
 	printf("how many players?\n");
 	char * buff = calloc(2, sizeof(char));
 	buff = input(4);
@@ -66,13 +70,16 @@ int server_round(){
 	printf("how many rounds (up to 99) would you like to play? ");
 	buff = calloc(2, sizeof(char));
 	buff = input(4);
-	sscanf(buff, "%d", &num_rounds);	
+	sscanf(buff, "%d", &num_rounds);
+*/
+	
+	num_players = 2;
+	num_rounds = 3;
 
-	int children[num_players][2];
+	int ** children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
+		children[i] = calloc(2, sizeof(int));
 		printf("waiting for player %d...\n", i+1);
-		int from_client;
-		int to_client;
 		children[i][FROM] = server_handshake(&children[i][TO]);
 		printf("player %d connected!\n", i+1);	
 		
@@ -89,12 +96,16 @@ int server_round(){
 		bytes = write(children[i][TO], &ready, 4);
 	}
 	
+	printf("rps timez\n");
+	
+	rps(num_players, children);
+	
 	
 	
 }
 
 //
-int rps(int num_players, int**children){
+int rps(int num_players, int ** children){
 	//int children[num_players][2]; //holds the fds
 	int results[num_players]; //holds the corresponding results
 	int bytes;

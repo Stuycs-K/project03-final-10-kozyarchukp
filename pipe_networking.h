@@ -66,6 +66,7 @@ int join();
 struct plr { char name[16]; char password[16]; int wins; int losses; }; //40bytes
 struct plr * username();
 int client_round(int to_server, int from_server);
+int rps(int num_players, int * children[2]);
 
 //from rps
 char * input(int bytes);
