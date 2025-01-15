@@ -25,12 +25,12 @@ int join() {
 			printf("choose a new password (up to 15 chars): ");
 			buff = input(15);
 			strcpy(player->password, buff);
-			int plr_file = open(player->name, O_RDWR, 0);
-			bytes = write(plr_file, player, 40);
-				if(bytes!=40)err();
+			update(player);
 		} else if (strcmp(buff, "delete")==0){
 			remove(player->name);
 			exit(0);
+		} else if (strcmp(buff, "start")==0){
+			break;
 		}
 	}
 	ready = FALSE;
@@ -53,13 +53,24 @@ int join() {
 				printf("it was a tie! one more time..\n");
 				i--;
 			} else if (result==WIN){
+				player->wins++;
 				printf("YOU WON!\n");
 			} else {
+				player->losses++;				
 				printf("YOU LOST! :(\n");
 			}
 		}
 		ready = FALSE;
 	}
+	
+	update(player);
+}
+
+int update(struct plr * player){
+	int bytes;
+	int plr_file = open(player->name, O_WRONLY | O_TRUNC, 0);
+	bytes = write(plr_file, player, 40);
+		if(bytes!=40)err();
 }
 
 //executes a round, taking user input, sending it to opponent, processing and returning win
