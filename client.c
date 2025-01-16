@@ -12,10 +12,8 @@ int join() {
 	
 	printf("welcome to rock paper scissors!\n");
 	
-	/*
 	player = username();
 	manageUser(player);	
-	*/
 	
 	from_server = client_handshake( &to_server );
 	
