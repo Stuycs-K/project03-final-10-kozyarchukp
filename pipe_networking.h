@@ -19,17 +19,25 @@
 #define HANDSHAKE_BUFFER_SIZE 10
 #define BUFFER_SIZE 1000
 #define MAX_CLIENTS 100
+
 #define WIN 2
 #define LOSE 1
 #define TIE 0
+
 #define FALSE 0
 #define TRUE 1
+
 #define TO 0
 #define FROM 1
+
 #define ROCK 0
 #define PAPER 1
 #define SCISSORS 2
 #define NONE -1
+
+#define ROUNDS 0
+#define BESTOF 1
+#define TOUR 2
 
 #define SYN 0
 #define SYN_ACK 1
@@ -60,10 +68,11 @@ int multi_server_connect(int from_client, struct message m);
 int new_game();
 int server_round();
 int winningChoice(int * results, int num_players);
+int userInput(int * num_players, int * num_rounds);
 
 //from client.c
 int join();
-int client_round(int to_server, int from_server);
+int client_rounds(int to_server, int from_server);
 int rps(int num_players, int * children[2]);
 
 //from username.c
@@ -82,5 +91,6 @@ int isPaper(char * str);
 int isScissors(char * str);
 int isRound(char * str);
 int isTour(char * str);
+int isBest(char * str);
 
 #endif

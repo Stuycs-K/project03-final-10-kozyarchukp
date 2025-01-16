@@ -15,20 +15,19 @@ int new_game() {
 	int bytes = 0;
 	int num_rounds;	
 	int num_players;
-	char * gamemode = calloc(16, sizeof(char));
+	int gamemode;
+	
+	userInput(&num_players, &num_rounds, &gamemode);
 	
 	printf("welcome to rock paper scissors!\n");
 	/*
-	printf("choose a gamemode ((r)ounds, or (t)ournament)\n");
-	gamemode = input(16);
+
 	
 	if(isRound(gamemode)){
 		server_round();
 	}
 	*/
 	server_round();
-
-	
 }
 
 int server_round(){
@@ -37,14 +36,7 @@ int server_round(){
 	int bytes;
 	char * buff = calloc(2, sizeof(char));	
 	
-	printf("how many players?\n");
-	buff = input(4);
-	sscanf(buff, "%d", &num_players);
-	printf("how many rounds (up to 99) would you like to play? ");
-	buff = calloc(2, sizeof(char));
-	buff = input(4);
-	sscanf(buff, "%d", &num_rounds);
-	
+
 	
 	int ** children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
@@ -123,37 +115,45 @@ int winningChoice(int * results, int num_players){
 	} else {
 		return NONE;
 	}
-	
-	/*if (results[0] == ROCK){
-		if(results[1] == ROCK){
-			return NONE;
-		} else if (results[1] == SCISSORS){
-			return ROCK;			
-		} else if (results[1] == PAPER){
-			return PAPER;			
-		}
-	} else if (results[0] == SCISSORS){
-		if(results[1] == ROCK){
-			return ROCK;
-		} else if (results[1] == SCISSORS){
-			return NONE;			
-		} else if (results[1] == PAPER){
-			return SCISSORS;			
-		}
-	} else if (results[0] == PAPER){
-		if(results[1] == ROCK){
-			return PAPER;
-		} else if (results[1] == SCISSORS){
-			return SCISSORS;			
-		} else if (results[1] == PAPER){
-			return NONE;
-		}
-	} else {
-		printf("invalid input");
-		return -1;
-	}
-	*/
 }
+
+int userInput(int * num_players, int * num_rounds, int * gamemode){
+	char * buff = calloc(16, sizeof(char));
+	printf("choose a gamemode ('(r)ounds', or '(best) of')\n");
+	buff = input(15);
+	if(isRounds(buff)){
+		*gamemode = ROUNDS;
+	} else if (isBest(buff)){
+		*gamemode = BESTOF;
+	} else {
+		printf("invalid input\n");
+		exit(1);
+	}
+	
+	if(*gamemode==ROUNDS){
+		printf("how many players?\n");
+		buff = input(4);
+		sscanf(buff, "%d", num_players);
+
+		printf("how many rounds (up to 99) would you like to play? ");
+		buff = calloc(2, sizeof(char));
+		buff = input(4);
+		sscanf(buff, "%d", num_rounds);			
+	}
+	
+	else if (*gamemode==BESTOF){
+		*num_players = 2;
+		
+		printf("best of how many rounds? ");
+		buff = calloc(2, sizeof(char));
+		buff = input(4);
+		sscanf(buff, "%d", num_rounds);		
+		if(num_rounds%2==0){
+			printf("must be an odd number.\n");
+		}
+	}
+}
+
 
 
 

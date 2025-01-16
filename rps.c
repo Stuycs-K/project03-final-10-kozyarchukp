@@ -55,7 +55,7 @@ int isScissors(char * str){
 	} else return FALSE;
 }
 
-int isRound(char * str){
+int isRounds(char * str){
 	if (strcasecmp(str, "rounds")== 0 || strcasecmp(str, "r")==0) {
 		return TRUE;
 	} else return FALSE;	
@@ -63,6 +63,12 @@ int isRound(char * str){
 
 int isTour(char * str){
 	if (strcasecmp(str, "tournament")== 0 || strcasecmp(str, "t")==0) {
+		return TRUE;
+	} else return FALSE;	
+}
+
+int isBest(char * str){
+	if (strcasecmp(str, "best of")== 0 || strcasecmp(str, "b")==0) {
 		return TRUE;
 	} else return FALSE;	
 }
