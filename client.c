@@ -12,11 +12,12 @@ int join() {
 	
 	printf("welcome to rock paper scissors!\n");
 	
-	player = username();
 	
-	printf("connecting to server...\n");
+	player = username();
+	manageUser(player);	
+	
+	
 	from_server = client_handshake( &to_server );
-	printf("successfully connected to server!\n");
 	
 	bytes = read(from_server, &num_rounds, 4);
 		if(bytes!=4)err();
@@ -33,14 +34,20 @@ int join() {
 				printf("it was a tie! one more time..\n");
 				i--;
 			} else if (result==WIN){
+				player->wins++;
 				printf("YOU WON!\n");
 			} else {
+				player->losses++;				
 				printf("YOU LOST! :(\n");
 			}
 		}
 		ready = FALSE;
 	}
+	
+	update(player);
 }
+
+
 
 //executes a round, taking user input, sending it to opponent, processing and returning win
 //give it the to_client/to_server file descripters
@@ -73,7 +80,7 @@ int client_round(int to_server, int from_server){
 	bytes = read(from_server, &recieved, 4);
 		if(bytes!=4)err();
 	
-	if(recieved==-1){
+	if(recieved==NONE){
 		return TIE;
 	} else if(recieved==send){
 		return WIN;
@@ -82,57 +89,5 @@ int client_round(int to_server, int from_server){
 	}
 }
 
-struct plr * username(){
-	char * username = calloc(16, sizeof(char));
-	int plr_file;	
-	int NEW_PLR = FALSE;
-	int bytes;
-	char *password = calloc(16, sizeof(char));	
-	struct plr *player;	
-	
-	printf("please enter a username (up to 15 chars): ");
-	username = input(15);
-	
-	strcpy(player->name, username);
-	
-	if(chdir("plr-files")==-1)err();
-	
-	plr_file = open(username, O_RDWR, 0);
-	if(plr_file==-1){
-		NEW_PLR = TRUE;
-		plr_file = open(username, O_RDWR | O_CREAT, 0666);
-		if(plr_file==-1)err();
-	}
-	
-	if(NEW_PLR){
-		printf("you are making a new account! please type a password (up to 15 chars): ");
-		password = input(16);
-		
-		strcpy(player->password, password);
-		player->wins = 0;
-		player->losses = 0;
-		
-		printf("account succesfully created!\n");
-		
-		bytes = write(plr_file, player, 40);
-		if(bytes!=40)err();
-	} else {
-		bytes = read(plr_file, player, 40);
-		if(bytes!=40)err();
-		
-		printf("type your password: ");
-		password = input(15);
-		
-		if(strcmp(player->password, password)==0){
-			printf("welcome %s!\n", username);
-		} else {
-			printf("incorrect password. BOO\n");
-			exit(0);
-		}
-	}
-	
-	if(chdir("..")==-1)err();
-	
-	return player;
-}
+
 
