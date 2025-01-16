@@ -9,7 +9,6 @@ int main(){
 
 	user_input = input(16);
 	
-	//printf("%d\n", strcmp(user_input, "new"));
 	if(strcmp(user_input, "new")==0){
 		new_game();
 	} else if (strcmp(user_input, "join")==0){

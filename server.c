@@ -37,19 +37,15 @@ int server_round(){
 	int bytes;
 	char * buff = calloc(2, sizeof(char));	
 	
-	/*
+	
 	printf("how many players?\n");
 	buff = input(4);
 	sscanf(buff, "%d", &num_players);
-	*/
 	printf("how many rounds (up to 99) would you like to play? ");
 	buff = calloc(2, sizeof(char));
 	buff = input(4);
 	sscanf(buff, "%d", &num_rounds);
 	
-
-	num_players = 2;
-
 	int ** children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
 		children[i] = calloc(2, sizeof(int));
@@ -89,39 +85,50 @@ int rps(int num_players, int ** children){
 			if(bytes!=4)err();
 	}
 	
+	winner = winningChoice(results, num_players);
 	
-	if(num_players==2){
-		winner = winningChoice(results);
-		for(int i = 0; i<2; i++){
-			bytes = write(children[i][TO], &winner, 4);
-				if(bytes!=4)err();
-		}
+	for(int i = 0; i<num_players; i++){
+		bytes = write(children[i][TO], &winner, 4);
+			if(bytes!=4)err();
 	}
 	
 	return winner;
-	//3 rocks, 2 paper
-	/*
-		two player:
-			normal rules
-		else...
-	count how many rocks, papers and scissors were thrown
-		will be a TIE if two are 0, or NONE are 0.
-		if one is equal to 0, NOT TIE!
-			if (num_rock>0 && num_paper>0){
-				paper win
-			} else if (num_rock>0 && num_scissors>0){
-				rock win
-			} else if (num_paper>0 && num_scissors>0){
-				scissors win
-			} 
-	*/
-		
 }
 
 
-//returns 1 if you lose, 2 if you won, 0 if a tie, -1 if invalid input
-int winningChoice(int * results){
-	if (results[0] == ROCK){
+//returns either ROCK, PAPER, SCISSORS, or NONE based off which one won
+int winningChoice(int * results, int num_players){
+	int num_rocks = 0;
+	int num_papers = 0;
+	int num_scissors = 0;
+	
+	for(int i = 0; i<num_players;i++){
+		if(results[i]==ROCK){
+			num_rocks++;
+		} else if (results[i]=PAPER){
+			num_papers++;
+		} else if (results[i]=SCISSORS){
+			num_scissors++;
+		} 
+	}
+	/*
+	printf("num_rocks: %d\n", num_rocks);
+	printf("num_papers: %d\n", num_papers);
+	printf("num_scissors: %d\n", num_scissors);
+	*/
+	if (num_rocks>0 && num_papers>0 && num_scissors>0){
+		return NONE;
+	} else if (num_rocks>0 && num_papers>0){
+		return PAPER;
+	} else if (num_rocks>0 && num_scissors>0){
+		return ROCK;
+	} else if (num_papers>0 && num_scissors>0){
+		return SCISSORS;
+	} else {
+		return NONE;
+	}
+	
+	/*if (results[0] == ROCK){
 		if(results[1] == ROCK){
 			return NONE;
 		} else if (results[1] == SCISSORS){
@@ -149,6 +156,7 @@ int winningChoice(int * results){
 		printf("invalid input");
 		return -1;
 	}
+	*/
 }
 
 

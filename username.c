@@ -44,8 +44,9 @@ struct plr * username(){
 		if(strcmp(player->password, password)==0){
 			printf("welcome %s!\n", username);
 		} else {
-			printf("incorrect password. BOO\n");
+			printf("incorrect password.\n");
 			exit(0);
+			//printf("post exit\n");
 		}
 	}
 	
@@ -57,11 +58,11 @@ struct plr * username(){
 int update(struct plr * player){
 	int bytes;
 	chdir("plr-files");
-	printf("going to try to open file %s\n", player->name);
 	int plr_file = open(player->name, O_WRONLY | O_TRUNC, 0);
 		if(plr_file==-1)err();
 	bytes = write(plr_file, player, 40);
 		if(bytes!=40)err();
+	chdir("..");
 }
 
 int manageUser(struct plr * player){
@@ -82,7 +83,9 @@ int manageUser(struct plr * player){
 			printf("updated the file!\n");
 			manageUser(player);			
 		} else if (strcmp(buff, "delete")==0){
+			chdir("plr-files");
 			remove(player->name);
+			chdir("..");
 			exit(0);
 		} else if (strcmp(buff, "start")==0){
 			return 0;

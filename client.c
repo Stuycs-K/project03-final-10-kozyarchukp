@@ -12,9 +12,10 @@ int join() {
 	
 	printf("welcome to rock paper scissors!\n");
 	
+	/*
 	player = username();
-	manageUser(player);
-	
+	manageUser(player);	
+	*/
 	
 	from_server = client_handshake( &to_server );
 	
@@ -79,7 +80,7 @@ int client_round(int to_server, int from_server){
 	bytes = read(from_server, &recieved, 4);
 		if(bytes!=4)err();
 	
-	if(recieved==-1){
+	if(recieved==NONE){
 		return TIE;
 	} else if(recieved==send){
 		return WIN;

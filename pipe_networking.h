@@ -59,7 +59,7 @@ int multi_server_connect(int from_client, struct message m);
 //from server.c
 int new_game();
 int server_round();
-int winningChoice(int * results);
+int winningChoice(int * results, int num_players);
 
 //from client.c
 int join();
