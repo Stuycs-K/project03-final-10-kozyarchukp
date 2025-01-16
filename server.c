@@ -37,7 +37,6 @@ int server_round(){
 	int bytes;
 	char * buff = calloc(2, sizeof(char));	
 	
-	
 	printf("how many players?\n");
 	buff = input(4);
 	sscanf(buff, "%d", &num_players);
@@ -45,6 +44,7 @@ int server_round(){
 	buff = calloc(2, sizeof(char));
 	buff = input(4);
 	sscanf(buff, "%d", &num_rounds);
+	
 	
 	int ** children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
@@ -105,16 +105,12 @@ int winningChoice(int * results, int num_players){
 	for(int i = 0; i<num_players;i++){
 		if(results[i]==ROCK){
 			num_rocks++;
-		} else if (results[i]=PAPER){
+		} else if (results[i]==PAPER){
 			num_papers++;
-		} else if (results[i]=SCISSORS){
+		} else if (results[i]==SCISSORS){
 			num_scissors++;
 		} 
 	}
-	
-	printf("num_rocks: %d\n", num_rocks);
-	printf("num_papers: %d\n", num_papers);
-	printf("num_scissors: %d\n", num_scissors);
 	
 	if (num_rocks>0 && num_papers>0 && num_scissors>0){
 		return NONE;
