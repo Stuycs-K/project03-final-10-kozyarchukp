@@ -4,6 +4,10 @@ This document must be updated daily by EACH group member.
 
 ## Polina Kozyarchuk
 
+### 2024-01-15
+username account stuff works perfectlt!!! but theres a random segfault sometimes but whatever
+rewrote the way that it process input. doesnt work mulitplayer
+
 ### 2024-01-14
 made the game ACTUALLY work in all circumstances! 2 player game works perfectly!
 started to make the player files actually functionable by having them record wins and losses and being able to check stats and such
