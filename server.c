@@ -111,11 +111,11 @@ int winningChoice(int * results, int num_players){
 			num_scissors++;
 		} 
 	}
-	/*
+	
 	printf("num_rocks: %d\n", num_rocks);
 	printf("num_papers: %d\n", num_papers);
 	printf("num_scissors: %d\n", num_scissors);
-	*/
+	
 	if (num_rocks>0 && num_papers>0 && num_scissors>0){
 		return NONE;
 	} else if (num_rocks>0 && num_papers>0){
