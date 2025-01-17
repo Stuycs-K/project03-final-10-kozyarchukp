@@ -16,9 +16,12 @@ int join() {
 	//manageUser(player);	
 	
 	from_server = client_handshake( &to_server );
+	printf("handshake\n");
 	
 	bytes = read(from_server, &num_rounds, 4);
 		if(bytes!=4)err();
+	printf("1\n");
+		
 	
 	printf("waiting for other players...\n");
 	bytes = read(from_server, &ready, 4);
