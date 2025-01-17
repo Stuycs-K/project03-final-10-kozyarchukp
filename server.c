@@ -5,7 +5,6 @@ void sighandler(int signo){
 		remove(WKP);
 		exit(0);
 	}
-
 }
 
 int new_game() {
@@ -13,30 +12,31 @@ int new_game() {
 	signal(SIGPIPE, SIG_IGN);
 
 	int bytes = 0;
-	int num_rounds;	
-	int num_players;
-	int gamemode;
+	int num_rounds = 3;	
+	int num_players = 2;
+	int gamemode = ROUNDS;
 	
-	userInput(&num_players, &num_rounds, &gamemode);
+	//userInput(&num_players, &num_rounds, &gamemode);
 	
 	if(gamemode==ROUNDS){
 		server_round(num_players, num_rounds);
+	} else if (gamemode==BESTOF){
+		
 	}
 }
 
-int server_round(int num_players, int num_rounds){
+int connect(int num_players, int num_rounds, int *** children){	
 	int bytes;
-	char * buff = calloc(2, sizeof(char));	
 	
-	int ** children = calloc(num_players*2, sizeof(int));
+	*children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
-		children[i] = calloc(2, sizeof(int));
+		*children[i] = calloc(2, sizeof(int));
 		printf("waiting for player %d...\n", i+1);
-		children[i][FROM] = server_handshake(&children[i][TO]);
+		*children[i][FROM] = server_handshake(&(*children[i][TO]));
 		printf("player %d connected!\n", i+1);	
 		
 		//write number of rounds
-		bytes = write(children[i][TO], &num_rounds, 4);
+		bytes = write(*children[i][TO], &num_rounds, 4);
 			if(bytes!=4){
 				printf("issue whe writing number of rounds to child\n");
 				err();
@@ -45,8 +45,30 @@ int server_round(int num_players, int num_rounds){
 	//all players are connected, give the signal to start!
 	for(int i = 0; i < num_players; i++){
 		int ready = TRUE;
-		bytes = write(children[i][TO], &ready, 4);
-	}
+		bytes = write(*children[i][TO], &ready, 4);
+	}	
+	
+}
+
+int server_bestof(int num_players, int num_rounds){
+	int bytes;
+	int ** children;
+	
+	connect(num_players, num_rounds, &children);
+
+	for (int i = 0; i < num_rounds; i++){
+		int result = rps(num_players, children);
+		if (result==NONE){
+			i--;
+		}
+	}	
+}
+
+int server_round(int num_players, int num_rounds){
+	int bytes;
+	int ** children;
+	
+	connect(num_players, num_rounds, &children);
 	
 	for (int i = 0; i < num_rounds; i++){
 		int result = rps(num_players, children);
@@ -56,8 +78,9 @@ int server_round(int num_players, int num_rounds){
 	}
 }
 
-
+//returns which choice won ROCK PAPER SCISSORS or NONE, and sends it to the child
 int rps(int num_players, int ** children){
+	printf("running rps\n");
 	int results[num_players]; //holds the corresponding results
 	int bytes;
 	int winner;

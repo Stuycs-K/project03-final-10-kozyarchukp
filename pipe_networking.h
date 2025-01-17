@@ -66,9 +66,11 @@ int multi_server_connect(int from_client, struct message m);
 
 //from server.c
 int new_game();
+int server_bestof(int num_players, int num_rounds);
 int server_round(int num_players, int num_rounds);
 int winningChoice(int * results, int num_players);
 int userInput(int * num_players, int * num_rounds, int * gamemode);
+int connect(int num_players, int num_rounds, int *** children);
 
 //from client.c
 int join();
