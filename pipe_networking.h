@@ -66,13 +66,13 @@ int multi_server_connect(int from_client, struct message m);
 
 //from server.c
 int new_game();
-int server_round();
+int server_round(int num_players, int num_rounds);
 int winningChoice(int * results, int num_players);
-int userInput(int * num_players, int * num_rounds);
+int userInput(int * num_players, int * num_rounds, int * gamemode);
 
 //from client.c
 int join();
-int client_rounds(int to_server, int from_server);
+int client_round(int to_server, int from_server);
 int rps(int num_players, int * children[2]);
 
 //from username.c
@@ -89,7 +89,7 @@ int won(char * yours, char * opponent);
 int isRock(char * str);
 int isPaper(char * str);
 int isScissors(char * str);
-int isRound(char * str);
+int isRounds(char * str);
 int isTour(char * str);
 int isBest(char * str);
 

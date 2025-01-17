@@ -19,24 +19,14 @@ int new_game() {
 	
 	userInput(&num_players, &num_rounds, &gamemode);
 	
-	printf("welcome to rock paper scissors!\n");
-	/*
-
-	
-	if(isRound(gamemode)){
-		server_round();
+	if(gamemode==ROUNDS){
+		server_round(num_players, num_rounds);
 	}
-	*/
-	server_round();
 }
 
-int server_round(){
-	int num_players;
-	int num_rounds;
+int server_round(int num_players, int num_rounds){
 	int bytes;
 	char * buff = calloc(2, sizeof(char));	
-	
-
 	
 	int ** children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
@@ -148,7 +138,7 @@ int userInput(int * num_players, int * num_rounds, int * gamemode){
 		buff = calloc(2, sizeof(char));
 		buff = input(4);
 		sscanf(buff, "%d", num_rounds);		
-		if(num_rounds%2==0){
+		if(*num_rounds%2==0){
 			printf("must be an odd number.\n");
 		}
 	}
