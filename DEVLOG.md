@@ -1,12 +1,17 @@
 # Dev Log:
-###GROUP NUMBER: 31#####
-
 This document must be updated daily by EACH group member.
 
 ## Polina Kozyarchuk
 
+### 2024-01-17
+kept trying on the new game mode. broke everything, had to undo everything, gave up.
+
+### 2024-01-16
+i wanted to start adding more gamemodes. need to restructure.. again...
+and on the way found a bunch of weird weird bugs. got multiplayer working well
+
 ### 2024-01-15
-username account stuff works perfectlt!!! but theres a random segfault sometimes but whatever
+username account stuff works perfectly! but theres a random segfault sometimes but whatever
 rewrote the way that it process input. doesnt work mulitplayer
 
 ### 2024-01-14
