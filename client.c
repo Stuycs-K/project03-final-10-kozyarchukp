@@ -12,15 +12,15 @@ int join() {
 	
 	printf("welcome to rock paper scissors!\n");
 	
-	
-	player = username();
-	manageUser(player);	
-	
+	//player = username();
+	//manageUser(player);	
 	
 	from_server = client_handshake( &to_server );
 	
 	bytes = read(from_server, &num_rounds, 4);
 		if(bytes!=4)err();
+	printf("1\n");
+		
 	
 	printf("waiting for other players...\n");
 	bytes = read(from_server, &ready, 4);

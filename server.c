@@ -5,7 +5,6 @@ void sighandler(int signo){
 		remove(WKP);
 		exit(0);
 	}
-
 }
 
 int new_game() {
@@ -15,36 +14,50 @@ int new_game() {
 	int bytes = 0;
 	int num_rounds;	
 	int num_players;
-	char * gamemode = calloc(16, sizeof(char));
+	int gamemode;
 	
-	printf("welcome to rock paper scissors!\n");
-	/*
-	printf("choose a gamemode ((r)ounds, or (t)ournament)\n");
-	gamemode = input(16);
+	userInput(&num_players, &num_rounds, &gamemode);
 	
-	if(isRound(gamemode)){
-		server_round();
-	}
-	*/
-	server_round();
-
-	
+	server_round(num_players, num_rounds);
 }
 
-int server_round(){
-	int num_players;
-	int num_rounds;
+
+
+int server_bestof(int num_players, int num_rounds){
 	int bytes;
 	char * buff = calloc(2, sizeof(char));	
 	
-	printf("how many players?\n");
-	buff = input(4);
-	sscanf(buff, "%d", &num_players);
-	printf("how many rounds (up to 99) would you like to play? ");
-	buff = calloc(2, sizeof(char));
-	buff = input(4);
-	sscanf(buff, "%d", &num_rounds);
-	
+	int ** children = calloc(num_players*2, sizeof(int));
+	for(int i = 0; i < num_players; i++){
+		children[i] = calloc(2, sizeof(int));
+		printf("waiting for player %d...\n", i+1);
+		children[i][FROM] = server_handshake(&children[i][TO]);
+		printf("player %d connected!\n", i+1);	
+		
+		//write number of rounds
+		bytes = write(children[i][TO], &num_rounds, 4);
+			if(bytes!=4){
+				printf("issue whe writing number of rounds to child\n");
+				err();
+			}					
+	}			
+	//all players are connected, give the signal to start!
+	for(int i = 0; i < num_players; i++){
+		int ready = TRUE;
+		bytes = write(children[i][TO], &ready, 4);
+	}
+
+	for (int i = 0; i < num_rounds; i++){
+		int result = rps(num_players, children);
+		if (result==NONE){
+			i--;
+		}
+	}	
+}
+
+int server_round(int num_players, int num_rounds){
+	int bytes;
+	char * buff = calloc(2, sizeof(char));	
 	
 	int ** children = calloc(num_players*2, sizeof(int));
 	for(int i = 0; i < num_players; i++){
@@ -74,7 +87,7 @@ int server_round(){
 	}
 }
 
-
+//returns which choice won ROCK PAPER SCISSORS or NONE, and sends it to the child
 int rps(int num_players, int ** children){
 	int results[num_players]; //holds the corresponding results
 	int bytes;
@@ -123,37 +136,21 @@ int winningChoice(int * results, int num_players){
 	} else {
 		return NONE;
 	}
-	
-	/*if (results[0] == ROCK){
-		if(results[1] == ROCK){
-			return NONE;
-		} else if (results[1] == SCISSORS){
-			return ROCK;			
-		} else if (results[1] == PAPER){
-			return PAPER;			
-		}
-	} else if (results[0] == SCISSORS){
-		if(results[1] == ROCK){
-			return ROCK;
-		} else if (results[1] == SCISSORS){
-			return NONE;			
-		} else if (results[1] == PAPER){
-			return SCISSORS;			
-		}
-	} else if (results[0] == PAPER){
-		if(results[1] == ROCK){
-			return PAPER;
-		} else if (results[1] == SCISSORS){
-			return SCISSORS;			
-		} else if (results[1] == PAPER){
-			return NONE;
-		}
-	} else {
-		printf("invalid input");
-		return -1;
-	}
-	*/
 }
+
+int userInput(int * num_players, int * num_rounds, int * gamemode){
+	char * buff = calloc(16, sizeof(char));
+
+	printf("how many players?\n");
+	buff = input(4);
+	sscanf(buff, "%d", num_players);
+
+	printf("how many rounds would you like to play? ");
+	buff = calloc(2, sizeof(char));
+	buff = input(4);
+	sscanf(buff, "%d", num_rounds);			
+}
+
 
 
 
