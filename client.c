@@ -19,7 +19,6 @@ int join() {
 	
 	bytes = read(from_server, &num_rounds, 4);
 		if(bytes!=4)err();
-	printf("1\n");
 		
 	
 	printf("waiting for other players...\n");
